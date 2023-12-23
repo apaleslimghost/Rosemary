@@ -3,7 +3,8 @@
 const parseDuration = require('parse-duration')
 const humanizeDuration = require('humanize-duration')
 
-/** @typedef {{ length: number, name: string, startTime?: Date }} Task */
+/** @typedef {{ length: number, name: string }} Task */
+/** @typedef {Task & {startTime: Date}} ScheduledTask */
 
 /** @returns Task */
 const task = (
@@ -14,7 +15,7 @@ const task = (
 	name
 })
 
-/** @returns {Task[]} */
+/** @returns {ScheduledTask[]} */
 const scheduleTasks = (/** @type {Task[]} */ [lastTask, ...otherTasks], /** @type {Date} */ endTime) => {
 	if(!lastTask) return []
 
@@ -26,7 +27,7 @@ const scheduleTasks = (/** @type {Task[]} */ [lastTask, ...otherTasks], /** @typ
 	]
 }
 
-const printTask = (/** @type {Task} */ task) => `${task.startTime?.toLocaleTimeString('en-GB')} ${task.name} (${humanizeDuration(task.length)})`
+const printTask = (/** @type {ScheduledTask} */ task) => `${task.startTime.toLocaleTimeString('en-GB')} ${task.name} (${humanizeDuration(task.length)})`
 
 const scheduleGroups = (/** @type {Task[][]} */ groups, /** @type {Date} */ endTime) => (
 	groups
