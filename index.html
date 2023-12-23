@@ -1,0 +1,24 @@
+<main></main>
+
+<script type="importmap">
+	{
+		"imports": {
+			"!/": "https://cdn.skypack.dev/"
+		}
+	}
+</script>
+
+<script type="module">
+	import { render, html, useState, useEffect } from '!/htm/preact/standalone'
+	import useLocalStorage from './lib/use-local-storage.js'
+
+	function App() {
+		const [count, setCount] = useLocalStorage('count', 13.7)
+
+		return html`
+			<button onClick=${() => setCount(c => c + 1)}>${count.toString()}</button>
+		`
+	}
+
+	render(html`<${App} />`, document.querySelector('main'))
+</script>
