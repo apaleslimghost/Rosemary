@@ -16,8 +16,10 @@
   },
   "homepage": "https://github.com/apaleslimghost/rosemary",
   "dependencies": {
-    "moment": "^2.8.4",
     "parse-duration": "^0.1.1",
     "toposort": "^0.2.10"
+  },
+  "volta": {
+    "node": "20.10.0"
   }
 }
