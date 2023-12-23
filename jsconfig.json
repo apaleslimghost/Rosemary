@@ -11,7 +11,12 @@
 		"paths": {
 			"!/*": [
 				"./node_modules/*"
+			],
+			"!/zod@3.18": [
+				"./node_modules/zod"
 			]
-		}
+		},
+		"noImplicitAny": true,
+		"strict": true
 	}
 }
