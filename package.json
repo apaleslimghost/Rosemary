@@ -1,5 +1,5 @@
 {
-  "name": "Rosemary",
+  "name": "rosemary",
   "version": "1.0.0",
   "description": "cooking timer",
   "main": "index.js",
@@ -8,14 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/quarterto/Rosemary.git"
+    "url": "git://github.com/apaleslimghost/rosemary.git"
   },
-  "author": "Matt Brennan <mwrbrennan@gmail.com> (http://blog.153.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/quarterto/Rosemary/issues"
+    "url": "https://github.com/apaleslimghost/rosemary/issues"
   },
-  "homepage": "https://github.com/quarterto/Rosemary",
+  "homepage": "https://github.com/apaleslimghost/rosemary",
   "dependencies": {
     "moment": "^2.8.4",
     "parse-duration": "^0.1.1",

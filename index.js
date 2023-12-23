@@ -1,64 +1,48 @@
-var toposort = require('toposort'),
-    moment   = require('moment'),
-    duration = require('parse-duration');
+// @ts-check
 
-function concatMap(xs, f) {
-	return xs.reduce(
-		function(ys, x) { return ys.concat(f(x)); },
-		[]
-	);
+const toposort = require('toposort')
+const moment   = require('moment')
+const parseDuration = require('parse-duration')
+
+class Task {
+	static instances = {}
+
+	constructor(name, length, deps) {
+		this.name = name
+		this.length = moment.duration(parseDuration(length))
+		this.deps = deps
+
+		Task.instances[name] = this
+	}
+
+	static deps() {
+		return Object.values(this.instances).flatMap((task) => task.depPairs())
+	}
+
+	static sort() {
+		return toposort(this.deps()).map((k) => Task.instances[k])
+	}
+
+	static deadline(time) {
+		return this.sort().map((task) =>
+			 [
+				time.subtract(task.length).clone(),
+				task
+			]
+		)
+	}
+
+	toString() {
+		return this.name + '(' + this.length.humanize() + ')'
+	}
+
+	depPairs() {
+		return this.deps.map((dep) => [this.name, dep])
+	}
 }
 
-function values(obj) {
-	return Object.keys(obj).map(function(k) {
-		return obj[k];
-	});
-}
+new Task('boil', '10m', ['chop'])
+new Task('chop', '5m', ['wash'])
+new Task('wash', '1m', [])
 
-function Task(name, length, deps) {
-	this.name = name;
-	this.length = moment.duration(duration(length));
-	this.deps = deps;
-
-	Task.instances[name] = this;
-}
-
-Task.instances = {};
-
-Task.deps = function() {
-	return concatMap(values(this.instances), function(task) {
-		return task.depPairs();
-	});
-};
-
-Task.sort = function() {
-	return toposort(this.deps()).map(function(k) {
-		return Task.instances[k];
-	});
-};
-
-Task.deadline = function(time) {
-	return this.sort().map(function(task) {
-		return [
-			time.subtract(task.length).clone(),
-			task
-		];
-	});
-};
-
-Task.prototype.toString = function() {
-	return this.name + '(' + this.length.humanize() + ')';
-};
-
-Task.prototype.depPairs = function() {
-	return this.deps.map(function(dep) {
-		return [this.name, dep];
-	}, this);
-};
-
-
-new Task('boil', '10m', ['chop']);
-new Task('chop', '5m', ['wash']);
-new Task('wash', '1m', []);
-
-console.log(Task.deadline(moment()));
+console.log(Task.deadline(moment()))
