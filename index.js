@@ -28,7 +28,12 @@ const scheduleTasks = (/** @type {Task[]} */ [lastTask, ...otherTasks], /** @typ
 
 const printTask = (/** @type {Task} */ task) => `${task.startTime?.toLocaleTimeString('en-GB')} ${task.name} (${humanizeDuration(task.length)})`
 
-const scheduleGroups = (/** @type {Task[][]} */ groups, /** @type {Date} */ endTime) => groups.map(group => scheduleTasks(group, endTime))
+const scheduleGroups = (/** @type {Task[][]} */ groups, /** @type {Date} */ endTime) => (
+	groups
+		.map(group => scheduleTasks(group, endTime))
+		.flat()
+		.sort((a, b) => (a.startTime?.getTime() ?? NaN) - (b.startTime?.getTime() ?? NaN))
+)
 
 const groups = [
 	[
@@ -45,9 +50,5 @@ const groups = [
 ]
 
 console.log(
-	scheduleGroups(groups, new Date())
-		.flat()
-		.sort((a, b) => (a.startTime?.getTime() ?? NaN) - (b.startTime?.getTime() ?? NaN))
-		.map(printTask)
-		.join('\n')
+	scheduleGroups(groups, new Date()).map(printTask).join('\n')
 )
