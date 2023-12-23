@@ -23,17 +23,11 @@ const deps = (/** @type {Record<string, Task>} */ tasks) => {
 	))
 }
 
-const sort = (/** @type {Record<string, Task>} */ tasks) => {
-	return toposort(deps(tasks)).map((k) => tasks[k])
-}
-
-const deadline = (/** @type {Record<string, Task>} */ tasks, /** @type {moment.Moment} */ time) => {
-	return sort(tasks).map((task) =>
-			[
-			time.subtract(task.length).clone(),
-			task
-		]
-	)
+const schedule = (/** @type {Record<string, Task>} */ tasks, /** @type {moment.Moment} */ time) => {
+	return toposort(deps(tasks)).map((task) => ({
+		time: time.subtract(tasks[task].length).clone(),
+		task
+	}))
 }
 
 const tasks = {
@@ -42,4 +36,4 @@ const tasks = {
 	wash: task('1m', []),
 }
 
-console.log(deadline(tasks, moment()))
+console.log(schedule(tasks, moment()).map(({ time, task }) => `${task} ${tasks[task].length} ${time.format()}`))
