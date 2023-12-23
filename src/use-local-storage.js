@@ -12,7 +12,6 @@ import { z } from '!/zod@3.18'
  */
 
 /** @template {z.ZodTypeAny} T */
-/** @returns {[z.output<T>, StateFunction<z.output<T>>]} */
 const useLocalStorage = (
 	/** @type {string} */ key,
 	/** @type {T} */ schema,
@@ -46,7 +45,7 @@ const useLocalStorage = (
 
 	localStorage.setItem(key, JSON.stringify(state))
 
-	return [state, setState]
+	return /** @type {const} */([state, setState])
 }
 
 export default useLocalStorage

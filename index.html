@@ -9,21 +9,8 @@
 </script>
 
 <script type="module">
-	import { render, html, useState, useEffect } from '!/htm/preact/standalone'
-	import useLocalStorage from './lib/use-local-storage.js'
-	import { z } from '!/zod@3.18'
-
-	const StateSchema = z.object({
-		count: z.number()
-	})
-
-	function App() {
-		const [count, setCount] = useLocalStorage('count', StateSchema, {count: 13.7})
-
-		return html`
-			<button onClick=${() => setCount(c => ({ count: c.count + 1 }))}>${count.count}</button>
-		`
-	}
+	import {render, html} from '!/htm/preact/standalone.mjs'
+	import App from './src/components/app.js'
 
 	render(html`<${App} />`, document.querySelector('main'))
 </script>
