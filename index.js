@@ -1,12 +1,18 @@
 // @ts-check
 
 const toposort = require('toposort')
-const moment   = require('moment')
+const moment = require('moment')
 const parseDuration = require('parse-duration')
 
 class Task {
+	/** @type {Record<string, Task>} */
 	static instances = {}
 
+	/**
+	 * @param {string} name
+	 * @param {string} length
+	 * @param {string[]} deps
+	 */
 	constructor(name, length, deps) {
 		this.name = name
 		this.length = moment.duration(parseDuration(length))
@@ -23,7 +29,7 @@ class Task {
 		return toposort(this.deps()).map((k) => Task.instances[k])
 	}
 
-	static deadline(time) {
+	static deadline(/** @type {moment.Moment} */ time) {
 		return this.sort().map((task) =>
 			 [
 				time.subtract(task.length).clone(),
@@ -36,6 +42,7 @@ class Task {
 		return this.name + '(' + this.length.humanize() + ')'
 	}
 
+	/** @returns {[string, string][]} */
 	depPairs() {
 		return this.deps.map((dep) => [this.name, dep])
 	}
