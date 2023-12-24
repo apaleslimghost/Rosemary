@@ -29,8 +29,6 @@ function App() {
 	/** @type {[string, import('../use-local-storage').StateFunction<string>]} */
 	const [scheduleTime, setScheduleDate] = useState(new Date().toLocaleTimeString('en-GB', {timeStyle: 'short'}))
 
-	console.log(scheduleTime, nextTime(scheduleTime))
-
 	function addGroup() {
 		setAppState(produce(state => {
 			state.groups.push([])
@@ -39,10 +37,20 @@ function App() {
 
 	function scheduledTasks() {
 		setAppState(produce(state => {
+			const time = nextTime(scheduleTime)
+
+			state.scheduleTime = time
 			state.scheduledTasks = scheduleGroups(
 				state.groups,
-				nextTime(scheduleTime)
+				time
 			)
+		}))
+	}
+
+	function clearSchedule() {
+		setAppState(produce(state => {
+			state.scheduleTime = undefined
+			state.scheduledTasks = undefined
 		}))
 	}
 
@@ -62,31 +70,46 @@ function App() {
 
 		<button onClick=${addGroup}>+</button>
 
-		<form onSubmit=${(/** @type {Event} */ event) => {
-			event.preventDefault()
-			scheduledTasks()
-		}}>
-			<input
-				type="time"
-				value=${scheduleTime}
-				onChange=${
-					(/** @type {InputEvent} */ event) => {
-						setScheduleDate(
-							/** @type {HTMLInputElement} */(event.currentTarget).value ?? new Date().toLocaleTimeString('en-GB', {timeStyle: 'short'})
-						)
-					}
-				}
-			/>
-			<button>Go</button>
-		</form>
+		<section>
+			${appState.scheduleTime && appState.scheduledTasks
+				? html`
+					<h3>
+						<time datetime=${appState.scheduleTime.toISOString()}>
+							${appState.scheduleTime.toLocaleTimeString('en-GB', {timeStyle: 'short'})}
+						</time>
 
-		${appState.scheduledTasks && html`
-			<ul>
-				${appState.scheduledTasks.map(task =>
-					html`<${Task} ...${task} />`
-				)}
-			</ul>
-		`}
+						<button onClick=${() => clearSchedule()}>
+							×
+						</button>
+					</h3>
+
+					<ul>
+						${appState.scheduledTasks.map(task =>
+							html`<${Task} ...${task} />`
+						)}
+					</ul>
+				`
+				: html`
+					<form onSubmit=${(/** @type {Event} */ event) => {
+						event.preventDefault()
+						scheduledTasks()
+					}}>
+						<input
+							type="time"
+							value=${scheduleTime}
+							onChange=${
+								(/** @type {InputEvent} */ event) => {
+									setScheduleDate(
+										/** @type {HTMLInputElement} */(event.currentTarget).value ?? new Date().toLocaleTimeString('en-GB', {timeStyle: 'short'})
+									)
+								}
+							}
+						/>
+						<button>Go</button>
+					</form>
+				`
+			}
+		</section>
 	`
 }
 

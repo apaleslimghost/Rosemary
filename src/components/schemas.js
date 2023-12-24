@@ -11,5 +11,6 @@ export const ScheduledTaskSchema = TaskSchema.extend({
 
 export const StateSchema = z.object({
 	groups: z.array(z.array(TaskSchema)),
-	scheduledTasks: z.array(ScheduledTaskSchema).optional()
+	scheduledTasks: z.array(ScheduledTaskSchema).optional(),
+	scheduleTime: z.string().optional().transform(str => str ? new Date(str) : undefined)
 })
