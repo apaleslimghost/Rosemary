@@ -1,16 +1,6 @@
-import parseDuration from '!/parse-duration'
 
 /** @typedef {import('zod').z.output<typeof import('./components/schemas').TaskSchema>} Task */
 /** @typedef {Task & {startTime: Date}} ScheduledTask */
-
-/** @returns Task */
-const task = (
-	/** @type {string} */ length,
-	/** @type {string} */ name
-) => ({
-	length: parseDuration(length),
-	name
-})
 
 /** @returns {ScheduledTask[]} */
 const scheduleTasks = (/** @type {Task[]} */ [lastTask, ...otherTasks], /** @type {Date} */ endTime) => {
