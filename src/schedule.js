@@ -1,7 +1,6 @@
 import parseDuration from '!/parse-duration'
-import { TaskSchema } from './components/schemas'
 
-/** @typedef {import('!/zod@3.18').z.output<typeof TaskSchema>} Task */
+/** @typedef {import('zod').z.output<typeof import('./components/schemas').TaskSchema>} Task */
 /** @typedef {Task & {startTime: Date}} ScheduledTask */
 
 /** @returns Task */
