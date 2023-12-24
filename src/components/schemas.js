@@ -5,6 +5,11 @@ export const TaskSchema = z.object({
 	name: z.string()
 })
 
+export const ScheduledTaskSchema = TaskSchema.extend({
+	startTime: z.string().transform(str => new Date(str))
+})
+
 export const StateSchema = z.object({
-	groups: z.array(z.array(TaskSchema))
+	groups: z.array(z.array(TaskSchema)),
+	scheduledTasks: z.array(ScheduledTaskSchema).optional()
 })

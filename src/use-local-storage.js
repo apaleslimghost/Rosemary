@@ -25,6 +25,7 @@ const useLocalStorage = (
 			if(result.success) {
 				return result.data
 			} else {
+				console.error(result.error)
 				localStorage.removeItem(key)
 			}
 		}

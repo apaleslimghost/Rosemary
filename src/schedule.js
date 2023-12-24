@@ -1,6 +1,5 @@
-
 /** @typedef {import('zod').z.output<typeof import('./components/schemas').TaskSchema>} Task */
-/** @typedef {Task & {startTime: Date}} ScheduledTask */
+/** @typedef {import('zod').z.output<typeof import('./components/schemas').ScheduledTaskSchema>} ScheduledTask */
 
 /** @returns {ScheduledTask[]} */
 const scheduleTasks = (/** @type {Task[]} */ [lastTask, ...otherTasks], /** @type {Date} */ endTime) => {
