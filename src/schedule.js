@@ -1,7 +1,7 @@
 import parseDuration from '!/parse-duration'
-import humanizeDuration from '!/humanize-duration'
+import { TaskSchema } from './components/schemas'
 
-/** @typedef {{ length: number, name: string }} Task */
+/** @typedef {import('!/zod@3.18').z.output<typeof TaskSchema>} Task */
 /** @typedef {Task & {startTime: Date}} ScheduledTask */
 
 /** @returns Task */
@@ -24,8 +24,6 @@ const scheduleTasks = (/** @type {Task[]} */ [lastTask, ...otherTasks], /** @typ
 		...scheduleTasks(otherTasks, startTime)
 	]
 }
-
-const printTask = (/** @type {ScheduledTask} */ task) => `${task.startTime.toLocaleTimeString('en-GB')} ${task.name} (${humanizeDuration(task.length)})`
 
 const scheduleGroups = (/** @type {Task[][]} */ groups, /** @type {Date} */ endTime) => (
 	groups
