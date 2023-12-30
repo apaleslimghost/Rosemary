@@ -1,4 +1,5 @@
-import { html, useState } from '!/htm/preact/standalone.mjs'
+import { html } from '!/htm/preact'
+import { useState } from '!/preact/compat'
 import { Task } from './task.js'
 import parseDuration from '!/parse-duration'
 

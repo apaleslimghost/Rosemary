@@ -1,4 +1,5 @@
-import { html, createContext, useState } from '!/htm/preact/standalone.mjs'
+import { html } from '!/htm/preact'
+import { createContext, useState } from '!/preact/compat'
 import { produce } from '!/immer'
 
 import useLocalStorage from '../use-local-storage.js'

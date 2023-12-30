@@ -1,4 +1,4 @@
-import { html } from '!/htm/preact/standalone.mjs'
+import { html } from '!/htm/preact'
 import humanizeDuration from '!/humanize-duration'
 
 export const Task = (/** @type {import('../schedule').Task | import('../schedule').ScheduledTask} */ task) => html`

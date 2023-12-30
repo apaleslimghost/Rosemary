@@ -1,4 +1,4 @@
-import { useState, useEffect } from '!/htm/preact/standalone.mjs'
+import { useState, useEffect } from '!/preact/compat'
 import { z } from '!/zod@3.18'
 
 /**

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <main></main>
 
 <script type="importmap">
@@ -9,7 +11,8 @@
 </script>
 
 <script type="module">
-	import {render, html} from '!/htm/preact/standalone.mjs'
+	import {render} from '!/preact/compat'
+	import {html} from '!/htm/preact'
 	import App from './src/components/app.js'
 
 	render(html`<${App} />`, document.querySelector('main'))
