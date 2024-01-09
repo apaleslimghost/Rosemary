@@ -23,9 +23,17 @@
     "node": "20.10.0"
   },
   "devDependencies": {
+    "@types/react": "^18.2.46",
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/sortablejs": "^1.15.7",
     "htm": "^3.1.1",
     "immer": "^10.0.3",
     "preact": "^10.19.3",
+    "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dom": "^18.2.0",
+    "react-sortablejs": "^6.1.4",
+    "sortablejs": "^1.15.1",
     "zod": "3.18"
   }
 }

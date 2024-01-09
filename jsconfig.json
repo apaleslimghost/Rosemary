@@ -6,15 +6,15 @@
 			"DOM",
 			"ES2022"
 		],
-		"moduleResolution": "bundler",
-		"module": "ESNext",
+		"moduleResolution": "node16",
+		"module": "node16",
 		"paths": {
 			"!/*": [
 				"./node_modules/*"
 			],
 			"!/zod@3.18": [
 				"./node_modules/zod"
-			]
+			],
 		},
 		"noImplicitAny": true,
 		"strict": true

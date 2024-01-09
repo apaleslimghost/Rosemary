@@ -1,4 +1,4 @@
-import { useState, useEffect } from '!/preact/compat'
+import { useState, useEffect } from '!/react'
 import { z } from '!/zod@3.18'
 
 /**

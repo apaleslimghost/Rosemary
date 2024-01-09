@@ -1,6 +1,7 @@
-import { html } from '!/htm/preact'
-import { createContext, useState } from '!/preact/compat'
+import { html } from '!/htm/react'
+import { createContext, useState } from '!/react'
 import { produce } from '!/immer'
+import { DragDropContext } from '!/react-beautiful-dnd'
 
 import useLocalStorage from '../use-local-storage.js'
 import {StateSchema} from './schemas.js'
@@ -55,62 +56,69 @@ function App() {
 		}))
 	}
 
+	function onDragEnd(/** @type {import('react-beautiful-dnd').DropResult} */ { source, destination }) {
+		console.log({source, destination})
+	}
+
 	return html`
-		${appState.groups.map((tasks, i) => html`
-			<${Group}
-				tasks=${tasks}
-				addTask=${
-					(/** @type {import('../schedule').Task} */ task) => {
-						setAppState(produce(state => {
-							state.groups[i].push(task)
-						}))
+		<${DragDropContext} onDragEnd=${onDragEnd}>
+			${appState.groups.map((tasks, i) => html`
+				<${Group}
+					tasks=${tasks}
+					addTask=${
+						(/** @type {import('../schedule').Task} */ task) => {
+							setAppState(produce(state => {
+								state.groups[i].push(task)
+							}))
+						}
 					}
-				}
-			/>
-		`)}
+					index=${i}
+				/>
+			`)}
 
-		<button onClick=${addGroup}>+</button>
+			<button onClick=${addGroup}>+</button>
 
-		<section>
-			${appState.scheduleTime && appState.scheduledTasks
-				? html`
-					<h3>
-						<time datetime=${appState.scheduleTime.toISOString()}>
-							${appState.scheduleTime.toLocaleTimeString('en-GB', {timeStyle: 'short'})}
-						</time>
+			<section>
+				${appState.scheduleTime && appState.scheduledTasks
+					? html`
+						<h3>
+							<time datetime=${appState.scheduleTime.toISOString()}>
+								${appState.scheduleTime.toLocaleTimeString('en-GB', {timeStyle: 'short'})}
+							</time>
 
-						<button onClick=${() => clearSchedule()}>
-							×
-						</button>
-					</h3>
+							<button onClick=${() => clearSchedule()}>
+								×
+							</button>
+						</h3>
 
-					<ul>
-						${appState.scheduledTasks.map(task =>
-							html`<${Task} ...${task} />`
-						)}
-					</ul>
-				`
-				: html`
-					<form onSubmit=${(/** @type {Event} */ event) => {
-						event.preventDefault()
-						scheduledTasks()
-					}}>
-						<input
-							type="time"
-							value=${scheduleTime}
-							onChange=${
-								(/** @type {InputEvent} */ event) => {
-									setScheduleDate(
-										/** @type {HTMLInputElement} */(event.currentTarget).value ?? new Date().toLocaleTimeString('en-GB', {timeStyle: 'short'})
-									)
+						<ul>
+							${appState.scheduledTasks.map(task =>
+								html`<${Task} task=${task} />`
+							)}
+						</ul>
+					`
+					: html`
+						<form onSubmit=${(/** @type {Event} */ event) => {
+							event.preventDefault()
+							scheduledTasks()
+						}}>
+							<input
+								type="time"
+								value=${scheduleTime}
+								onChange=${
+									(/** @type {InputEvent} */ event) => {
+										setScheduleDate(
+											/** @type {HTMLInputElement} */(event.currentTarget).value ?? new Date().toLocaleTimeString('en-GB', {timeStyle: 'short'})
+										)
+									}
 								}
-							}
-						/>
-						<button>Go</button>
-					</form>
-				`
-			}
-		</section>
+							/>
+							<button>Go</button>
+						</form>
+					`
+				}
+			</section>
+		<//>
 	`
 }
 

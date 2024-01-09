@@ -5,14 +5,16 @@
 <script type="importmap">
 	{
 		"imports": {
-			"!/": "https://esm.sh/"
+			"!/": "https://esm.sh/",
+			"!/react": "https://esm.sh/react?dev",
+			"!/htm/react": "https://esm.sh/htm/react?deps=react@18.2.0"
 		}
 	}
 </script>
 
 <script type="module">
-	import {render} from '!/preact/compat'
-	import {html} from '!/htm/preact'
+	import { render } from '!/react-dom'
+	import { html } from '!/htm/react'
 	import App from './src/components/app.js'
 
 	render(html`<${App} />`, document.querySelector('main'))
